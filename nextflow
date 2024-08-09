@@ -1,0 +1,8 @@
+#data location 
+#fastaq file directory: /cephfs2/dlloyd/tetraploid_sequencing_data/40-1004789214/00_fastq
+
+nextflow run /public/singularity/containers/nextflow/lmb-nextflow/pipelines/sc_parse/scparse.nf \
+    -config /public/singularity/containers/nextflow/lmb-nextflow/pipelines/sc_parse/nextflow_cluster.config \
+    --reads_folder /cephfs2/dlloyd/tetraploid_sequencing_data/40-1004789214/00_fastq \
+    --genome_folder /public/genomics/species_references/nextflow/Genome_References/Ensembl/Ensembl_Parse/homo_sapiens/GRCh38/Release_102/Parse_index/homo_sapiens.GRCh38.dna.102.Parse_index \
+    --sample_file /cephfs2/hannas/tetraploids/sample_info.csv --chemistry_version v2 --outdir results -bg
