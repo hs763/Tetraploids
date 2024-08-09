@@ -6,4 +6,4 @@ nextflow run /public/singularity/containers/nextflow/lmb-nextflow/pipelines/sc_p
     -config /public/singularity/containers/nextflow/lmb-nextflow/pipelines/sc_parse/nextflow_cluster.config \
     --reads_folder /cephfs2/hannas/tetraploids/expdata \
     --genome_folder /public/genomics/species_references/nextflow/Genome_References/Ensembl/Ensembl_Parse/homo_sapiens/GRCh38/Release_102/Parse_index/homo_sapiens.GRCh38.dna.102.Parse_index \
-    --sample_file /cephfs2/hannas/tetraploids/sample_info.csv --chemistry_version v2 --outdir /cephfs2/hannas/tetraploids/results -bg
+    --sample_file /cephfs2/hannas/tetraploids/sample_information.prn --chemistry_version v2 --outdir /cephfs2/hannas/tetraploids/results -bg
