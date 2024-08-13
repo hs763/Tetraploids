@@ -1,6 +1,14 @@
 conda activate spipe 
 
-path2data = "/data1/hania/Tetraploids/newvolume"
+#making human reference genome with spipe v1.3.1
+nohup split-pipe \
+--mode mkref \
+--genome_name GRCh38 \
+--fasta /data1/hania/MultiSpeciesComp/newvolume/genomes/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz \
+--genes /data1/hania/MultiSpeciesComp/newvolume/genomes/Homo_sapiens.GRCh38.112.gtf.gz \
+--output_dir $path2data/genomes/GRCh38 &
+
+path2data="/data1/hania/Tetraploids/newvolume"
 split-pipe --mode all --kit WT_mega --chemistry v1 --genome_dir /data1/hania/MultiSpeciesComp/newvolume/genomes/GRCh38/ \
 --fq1 $path2data/expdata/UDI-WT-1_R1_001.fastq.gz \
 --fq2 $path2data/expdata/UDI-WT-1_R2_001.fastq.gz \
