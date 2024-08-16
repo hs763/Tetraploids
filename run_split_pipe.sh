@@ -1,3 +1,7 @@
+#script saved on /cephfs2/hannas/tetraploids/analysis/run_split_pipe.sh
+#make executable: chmod +x run_split_pipe.sh
+
+
 #!/bin/bash
 
 # Activate the conda environment
