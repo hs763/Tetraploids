@@ -62,3 +62,13 @@ split-pipe --mode dge --kit WT --chemistry v2 \
 split-pipe --mode comb \
     --sublibraries $path2data/analysis/UDI_WT_1 $path2data/analysis/UDI_WT_2 $path2data/analysis/UDI_WT_3 $path2data/analysis/UDI_WT_4 $path2data/analysis/UDI_WT_5 $path2data/analysis/UDI_WT_6 $path2data/analysis/UDI_WT_7 $path2data/analysis/UDI_WT_8 \
     --output_dir $path2data/analysis/combined
+
+#each fo these are in seperate files. 
+
+sbatch -J UDI_WT_2 -c 2 --mail-type=ALL --mail-user=hannas@mrc-lmb.cam.ac.uk --mem=300G UDI_WT_2.sh
+sbatch -J UDI_WT_3 -c 2 --mail-type=ALL --mail-user=hannas@mrc-lmb.cam.ac.uk --mem=300G UDI_WT_3.sh
+sbatch -J UDI_WT_4 -c 2 --mail-type=ALL --mail-user=hannas@mrc-lmb.cam.ac.uk --mem=300G UDI_WT_4.sh
+sbatch -J UDI_WT_5 -c 2 --mail-type=ALL --mail-user=hannas@mrc-lmb.cam.ac.uk --mem=300G UDI_WT_5.sh
+sbatch -J UDI_WT_6 -c 2 --mail-type=ALL --mail-user=hannas@mrc-lmb.cam.ac.uk --mem=300G UDI_WT_6.sh
+sbatch -J UDI_WT_7 -c 2 --mail-type=ALL --mail-user=hannas@mrc-lmb.cam.ac.uk --mem=300G UDI_WT_7.sh
+sbatch -J UDI_WT_8 -c 2 --mail-type=ALL --mail-user=hannas@mrc-lmb.cam.ac.uk --mem=300G UDI_WT_8.sh
