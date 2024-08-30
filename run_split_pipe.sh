@@ -132,7 +132,7 @@ conda activate spipe
 # Set path to data
 path2data="/cephfs2/hannas/tetraploids"
 
-split-pipe --mode dge --kit WT --chemistry v2 \
+split-pipe --mode all --kit WT --chemistry v2 \
     --genome_dir $path2data/genomes/GRCh38/ \
     --fq1 $path2data/expdata/raw_data/UDI-WT-8_1.fastq.gz \
     --fq2 $path2data/expdata/raw_data/UDI-WT-8_2.fastq.gz \
