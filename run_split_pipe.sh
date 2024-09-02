@@ -15,8 +15,8 @@ split-pipe --mode dge --kit WT --chemistry v2 \
     --genome_dir $path2data/genomes/GRCh38/ \
     --fq1 $path2data/expdata/raw_data/UDI-WT-1_1.fastq.gz \
     --fq2 $path2data/expdata/raw_data/UDI-WT-1_2.fastq.gz \
-    --output_dir $path2data/expdata/data2/UDI_WT_1 \
-    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table_V1.3.0.xlsm
+    --output_dir $path2data/expdata/data_samptab/UDI_WT_1 \
+    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table.xlsm
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -34,9 +34,8 @@ split-pipe --mode all --kit WT --chemistry v2 \
      --genome_dir $path2data/genomes/GRCh38/ \
      --fq1 $path2data/expdata/raw_data/UDI-WT-2_1.fastq.gz \
      --fq2 $path2data/expdata/raw_data/UDI-WT-2_2.fastq.gz \
-     --output_dir $path2data/expdata/data2/UDI_WT_2 \
-     --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table_V1.3.0.xlsm
-
+     --output_dir $path2data/expdata/data_samptab/UDI_WT_2 \
+     --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table.xlsm
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
 
@@ -51,8 +50,8 @@ split-pipe --mode all --kit WT --chemistry v2 \
     --genome_dir $path2data/genomes/GRCh38/ \
     --fq1 $path2data/expdata/raw_data/UDI-WT-3_1.fastq.gz \
     --fq2 $path2data/expdata/raw_data/UDI-WT-3_2.fastq.gz \
-    --output_dir $path2data/expdata/data2/UDI_WT_3 \ 
-    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table_V1.3.0.xlsm
+    --output_dir $path2data/expdata/data_samptab/UDI_WT_3 \ 
+    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table.xlsm
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
@@ -68,8 +67,8 @@ split-pipe --mode all --kit WT --chemistry v2 \
     --genome_dir $path2data/genomes/GRCh38/ \
     --fq1 $path2data/expdata/raw_data/UDI-WT-4_1.fastq.gz \
     --fq2 $path2data/expdata/raw_data/UDI-WT-4_2.fastq.gz \
-    --output_dir $path2data/expdata/data2/UDI_WT_4 \
-    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table_V1.3.0.xlsm
+    --output_dir $path2data/expdata/data_samptab/UDI_WT_4 \
+    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table.xlsm
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
@@ -85,8 +84,8 @@ split-pipe --mode all --kit WT --chemistry v2 \
     --genome_dir $path2data/genomes/GRCh38/ \
     --fq1 $path2data/expdata/raw_data/UDI-WT-5_1.fastq.gz \
     --fq2 $path2data/expdata/raw_data/UDI-WT-5_2.fastq.gz \
-    --output_dir $path2data/expdata/data2/UDI_WT_5 \
-    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table_V1.3.0.xlsm
+    --output_dir $path2data/expdata/data_samptab/UDI_WT_5 \
+    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table.xlsm
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
@@ -102,9 +101,8 @@ split-pipe --mode all --kit WT --chemistry v2 \
     --genome_dir $path2data/genomes/GRCh38/ \
     --fq1 $path2data/expdata/raw_data/UDI-WT-6_1.fastq.gz \
     --fq2 $path2data/expdata/raw_data/UDI-WT-6_2.fastq.gz \
-    --output_dir $path2data/expdata/data2/UDI_WT_6 \
-    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table_V1.3.0.xlsm
-
+    --output_dir $path2data/expdata/data_samptab/UDI_WT_6 \
+    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table.xlsm
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
 
@@ -119,8 +117,8 @@ split-pipe --mode all --kit WT --chemistry v2 \
     --genome_dir $path2data/genomes/GRCh38/ \
     --fq1 $path2data/expdata/raw_data/UDI-WT-7_1.fastq.gz \
     --fq2 $path2data/expdata/raw_data/UDI-WT-7_2.fastq.gz \
-    --output_dir $path2data/expdata/data2/UDI_WT_7 \
-    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table_V1.3.0.xlsm
+    --output_dir $path2data/expdata/data_samptab/UDI_WT_7 \
+    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table.xlsm
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
@@ -136,8 +134,8 @@ split-pipe --mode all --kit WT --chemistry v2 \
     --genome_dir $path2data/genomes/GRCh38/ \
     --fq1 $path2data/expdata/raw_data/UDI-WT-8_1.fastq.gz \
     --fq2 $path2data/expdata/raw_data/UDI-WT-8_2.fastq.gz \
-    --output_dir $path2data/expdata/data2/UDI_WT_8 \
-    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table_V1.3.0.xlsm
+    --output_dir $path2data/expdata/data_samptab/UDI_WT_8 \
+    --samp_sltab $path2data/expdata/raw_data/Parse_WT_100K_Sample_Loading_Table.xlsm
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 sbatch -J UDI_WT_1 -c 2 --mail-type=ALL --mail-user=hannas@mrc-lmb.cam.ac.uk --mem=300G UDI_WT_1.sh
