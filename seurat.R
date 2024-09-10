@@ -248,7 +248,16 @@ DoHeatmap(so, features = top10$gene) + NoLegend()
 
 
 
+#asingin luster identites 
+new.cluster.ids <- c("","")
+names(new.cluster.ids) <- levels(so)
+so <- RenameIdents(so, new.cluster.ids)
+DimPlot(so, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
 
+library(ggplot2)
+plot <- DimPlot(so, reduction = "umap", label = TRUE, label.size = 4.5) + xlab("UMAP 1") + ylab("UMAP 2") +
+    theme(axis.title = element_text(size = 18), legend.text = element_text(size = 18)) + guides(colour = guide_legend(override.aes = list(size = 10)))
+ggsave("UMAP_Clusters_CellTypes.png", height = 7, width = 12, plot = plot, quality = 50)
 
 
 
