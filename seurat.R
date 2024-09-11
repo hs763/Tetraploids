@@ -179,16 +179,31 @@ all.genes <- rownames(so)
 so <- ScaleData(so, features = all.genes)
 saveRDS(so, "SeuratObject_Norm_Scaled_Subset1.rds")
 
-...
+so <- readRDS("SeuratObject_Norm_Scaled_Subset1.rds")
 
-plan("multicore", workers = 4)
+plan("multicore", workers = 4) 
 so <- RunPCA(so, features = VariableFeatures(object = so))
 saveRDS(so, "SeuratObject_Norm_Scaled_PCA_Subset1.rds")
 print(so[["pca"]], dims = 1:5, nfeatures = 5)
+# PC_ 1 
+# Positive:  CACNA1A, NEAT1, KALRN, SDK1, NAV2 
+# Negative:  S100A8, ENSG00000278911, ENSG00000273988, ENSG00000254575, OR5D15P 
+# PC_ 2 
+# Positive:  WNT5B, MECOM, PLCH1, GPC3, PLXDC2 
+# Negative:  TRHDE, THSD7B, EBF3, NXPH1, ELAVL3 
+# PC_ 3 
+# Positive:  WNT5B, RMST, MIAT, NAV3, LINC01414 
+# Negative:  GRHL2, CDH1, HAPLN1, ESRP1, ATP8B1 
+# PC_ 4 
+# Positive:  EPHA3, CREB5, LHX2, NPAS3, DLGAP2 
+# Negative:  LINC02315, MIR924HG, TMEM132C, ENSG00000286099, COLEC12 
+# PC_ 5 
+# Positive:  EDNRA, LINC00511, ITGA4, SOX10, KANK4 
+# Negative:  RBFOX1, SHISA9, ENSG00000262801, LINC00278, GRHL2 
 
 VizDimLoadings(so, dims = 1:5, reduction = "pca", ncol = 5)
-pca_SampleName <- DimPlot(so, reduction = "pca", pt.size = 0.5,group.by = "sample_name")
-ggsave("PCA_bySampleName_Subset1.png", plot = pca_SampleName, width = 10, height = 8, dpi = 300)
+pca_Sample <- DimPlot(so, reduction = "pca", pt.size = 0.5,group.by = "sample_name")
+ggsave("PCA_bySample_Subset1.png", plot = pca_SampleName, width = 10, height = 8, dpi = 300)
 
 pca_batch <- DimPlot(so, reduction = "pca", pt.size = 0.5,group.by = "batch")
 ggsave("PCA_byBatch_Subset1.png", plot = pca_batch, width = 10, height = 8, dpi = 300)
@@ -197,8 +212,8 @@ pca_batch <- DimPlot(so, reduction = "pca", pt.size = 0.5,group.by = "day")
 ggsave("PCA_byDay_Subset1.png", plot = pca_batch, width = 10, height = 8, dpi = 300)
 
 DimHeatmap(so, dims = 1, cells = 500, balanced = TRUE)
-DimHeatmapPCA15 <- DimHeatmap(so, dims = 1:15, cells = 500, balanced = TRUE)
-ggsave("DimHeatMap_first_15PCAs.png", plot = DimHeatmapPCA15,  width = 8, height = 12, dpi = 300)
+DimHeatmapPCA10 <- DimHeatmap(so, dims = 1:10, cells = 500, balanced = TRUE)
+ggsave("DimHeatMap_first_10PCAs.png", plot = DimHeatmapPCA15,  width = 8, height = 12, dpi = 300)
 
 elbow <- ElbowPlot(so)
 ggsave("elbow_plot_Subset1.png", plot = elbow,  width = 10, height = 8, dpi = 300)
@@ -206,22 +221,26 @@ ggsave("elbow_plot_Subset1.png", plot = elbow,  width = 10, height = 8, dpi = 30
 
 
 #Choosing the nuber of PCAs to contimue with to UMAP. 
-so <- FindNeighbors(so, dims = 1:8)
-so <- FindClusters(so, resolution = 0.2)
-head(Idents(so), 8)
+options(future.globals.maxSize = 200 * 1024^3)
+so <- FindNeighbors(so, dims = 1:9)
+so <- FindClusters(so, resolution = 0.1, future.seed=TRUE)
+# UNRELIABLE VALUE: One of the 'future.apply' iterations ('future_lapply-1') unexpectedly generated random numbers without declaring so. There is a risk that those random numbers are not statistically sound and the overall results might be invalid. To fix this, specify 'future.seed=TRUE'. This ensures that proper, parallel-safe random numbers are produced via the L'Ecuyer-CMRG method. To disable this check, use 'future.seed = NULL', or set option 'future.rng.onMisuse' to "ignore".
+head(Idents(so),9)
 
-so <- RunUMAP(so, dims = 1:8)
+so <- RunUMAP(so, dims = 1:9)
 umap <- DimPlot(so, reduction = "umap", group.by = "sample_name")
+ggsave("umap_top9PCAs_bySample.png", plot = umap,  width = 10, height = 8, dpi = 300)
+
 saveRDS(so, "SeuratObject_Norm_UMAP_Subset1.rds")
 
-umap <- DimPlot(so, reduction = "umap", group.by = "day")
-ggsave("umap_top5PCAs_byDay.png", plot = umap,  width = 10, height = 8, dpi = 300)
+umap_day <- DimPlot(so, reduction = "umap", group.by = "day")
+ggsave("umap_top9PCAs_byDay.png", plot = umap_day,  width = 10, height = 8, dpi = 300)
 
-umap <- DimPlot(mso, reduction = "umap", group.by = "batch")
-ggsave("umap_top5PCAs_bybatch.png", plot = umap,  width = 10, height = 8, dpi = 300)
+umap_batch <- DimPlot(so, reduction = "umap", group.by = "batch")
+ggsave("umap_top9PCAs_bybatch.png", plot = umap_batch,  width = 10, height = 8, dpi = 300)
 
-umap <- DimPlot(mso, reduction = "umap", group.by = "RNA_snn_res.0.2")
-ggsave("umap_top5PCAs_byCluster.png", plot = umap,  width = 10, height = 8, dpi = 300)
+umap_clust <- DimPlot(so, reduction = "umap", group.by = "seurat_clusters")
+ggsave("umap_top9PCAs_byCluster.png", plot = umap_clust,  width = 10, height = 8, dpi = 300)
 
 
 
@@ -231,12 +250,23 @@ so.markers %>%
     group_by(cluster) %>%
     dplyr::filter(avg_log2FC > 1)
 
-saveRDS(so.markers, "mso.marker.rds")
+saveRDS(so.markers, "so.marker.rds")
 
 VlnPlot(so, features = c("")) 
 VlnPlot(so, features = c(""), slot = "counts", log = TRUE)
 
-FeaturePlot(so, features = c())
+#exit form pluripotency (ectodermal/neural fates)
+FeaturePlot(so, features = c("NANOG", "OCT4", "SOX2", "PAX6", "SXO1"))
+#neuroepithelial-toreadial-glia transition
+FeaturePlot(so, features = c("ZEB2",))
+#Pan-RG
+FeaturePlot(so, Features = c("SOX2","VIM","NES","GLI3","FABP7", "HES1", "GFAP"))
+#early radial glia 
+FeaturePlot(so, features = c("LIX1", "HMGA2"))
+#apical radial glia 
+FeaturePlot(so, features = c("FBXO32","PROM1", "PARD3", "CRYAB", "PALLD")
+#mitotic/dividing cells  
+FeaturePlot(so, features = c("NANOG", "OCT4", "SOX2", "PAX6", "SXO1"))
 
 so.markers %>%
     group_by(cluster) %>%
