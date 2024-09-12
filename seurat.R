@@ -242,6 +242,62 @@ ggsave("umap_top9PCAs_bybatch.png", plot = umap_batch,  width = 10, height = 8, 
 umap_clust <- DimPlot(so, reduction = "umap", group.by = "seurat_clusters")
 ggsave("umap_top9PCAs_byCluster.png", plot = umap_clust,  width = 10, height = 8, dpi = 300)
 
+umap_species <- DimPlot(so, reduction = "umap", group.by = "species")
+ggsave("umap_top9PCAs_bySpecies.png", plot = umap_species,  width = 10, height = 8, dpi = 300)
+
+
+#integrationg wiht haarmony 
+V <- Embeddings(so, reduction = "pca")
+meta_data <- so@meta.data
+harmony_embeddings_species <- harmony::RunHarmony(V, meta_data, 'species', verbose=FALSE, max_iter = 50)
+harmony_embeddings_sample <- harmony::RunHarmony(V, meta_data, 'sample_name', verbose=FALSE)
+
+so[['harmony.species']] <- CreateDimReducObject(
+  embeddings = harmony_embeddings_species,
+  key = "harmony_",   
+  assay = DefaultAssay(so)
+)
+
+so[['harmony.sample']] <- CreateDimReducObject(
+  embeddings = harmony_embeddings_sample,
+  key = "harmony_",   
+  assay = DefaultAssay(so)
+)
+
+so <- FindNeighbors(so, dims = 1:10, reduction = "harmony.species")
+so <- FindClusters(so, resolution = 0.1, reduction = "harmony.batch")
+
+so <- RunUMAP(so, dims = 1:10, reduction = "harmony.species", reduction.name = "umap.harmony.species")
+umap_species <- DimPlot(so, reduction = "umap.harmony.species", group.by = "day")
+ggsave("umap_harmony_species_10PCs_byday.png", plot = umap_species,  width = 10, height = 8, dpi = 300)
+
+so <- RunUMAP(so, dims = 1:10, reduction = "harmony.sample", reduction.name = "umap.harmony.sample")
+umap_sample <- DimPlot(so, reduction = "umap.harmony.sample", group.by = "day")
+ggsave("umap_harmony_sample_10PCs_byDay.png", plot = umap_sample,  width = 10, height = 8, dpi = 300)
+
+saveRDS(so,"SeuratObject_subset_harmony.rds")
+
+#what is drving the variation? 
+plot <- FeaturePlot(so, 
+            features = "nCount_RNA",  # This represents the total RNA counts for each cell
+            reduction = "umap.harmony.species",  # Specify your custom UMAP reduction
+            cols = c("blue", "red"))
+ggsave("umap_harmony_species_10PCs_nFeature.png", plot = plot,  width = 10, height = 8, dpi = 300)
+
+umap <- DimPlot(so, reduction = "umap.harmony.species", group.by = "nCount_RNA")
+ggsave("umap_harmony_species_10PCs_bynCount_RNA.png", plot = umap,  width = 10, height = 8, dpi = 300)
+
+umap_species <- DimPlot(so, reduction = "umap.harmony.species", group.by = "percent.mt")
+ggsave("umap_harmony_species_10PCs_bypercent.mt.png", plot = umap_species,  width = 10, height = 8, dpi = 300)
+
+umap_day <- DimPlot(so, reduction = "umap", group.by = "nFeature_RNA")
+ggsave("umap_top9PCAs_bynFeature_RNA.png", plot = umap_day,  width = 10, height = 8, dpi = 300)
+
+umap_day <- DimPlot(so, reduction = "umap", group.by = "nCount_RNA")
+ggsave("umap_top9PCAs_bynCount_RNA.png", plot = umap_day,  width = 10, height = 8, dpi = 300)
+
+umap_day <- DimPlot(so, reduction = "umap", group.by = "percent.mt")
+ggsave("umap_top9PCAs_bypercent.mt.png", plot = umap_day,  width = 10, height = 8, dpi = 300)
 
 
 #clsuter anlaysis 
@@ -251,12 +307,11 @@ so.markers %>%
     dplyr::filter(avg_log2FC > 1)
 
 saveRDS(so.markers, "so.marker.rds")
-
 VlnPlot(so, features = c("")) 
 VlnPlot(so, features = c(""), slot = "counts", log = TRUE)
 
 #exit form pluripotency (ectodermal/neural fates)
-FeaturePlot(so, features = c("NANOG", "OCT4", "SOX2", "PAX6", "SXO1"))
+FeaturePlot(so, features = c("NANOG", "OCT4", "SOX2", "PAX6", "SOX1"),reduction = "umap.harmony.sample", cols = c("blue", "red"))
 #neuroepithelial-toreadial-glia transition
 FeaturePlot(so, features = c("ZEB2",))
 #Pan-RG
@@ -288,6 +343,4 @@ library(ggplot2)
 plot <- DimPlot(so, reduction = "umap", label = TRUE, label.size = 4.5) + xlab("UMAP 1") + ylab("UMAP 2") +
     theme(axis.title = element_text(size = 18), legend.text = element_text(size = 18)) + guides(colour = guide_legend(override.aes = list(size = 10)))
 ggsave("UMAP_Clusters_CellTypes.png", height = 7, width = 12, plot = plot, quality = 50)
-
-
 
