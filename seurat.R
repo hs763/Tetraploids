@@ -278,26 +278,43 @@ ggsave("umap_harmony_sample_10PCs_byDay.png", plot = umap_sample,  width = 10, h
 saveRDS(so,"SeuratObject_subset_harmony.rds")
 
 #what is drving the variation? 
-plot <- FeaturePlot(so, 
-            features = "nCount_RNA",  # This represents the total RNA counts for each cell
-            reduction = "umap.harmony.species",  # Specify your custom UMAP reduction
-            cols = c("blue", "red"))
-ggsave("umap_harmony_species_10PCs_nFeature.png", plot = plot,  width = 10, height = 8, dpi = 300)
+plot <- FeaturePlot(so, features = "nCount_RNA", 
+                    reduction = "umap.harmony.species", 
+                    pt.size = 1) +
+  scale_color_viridis_c(trans = "log1p") + 
+  labs(title = "UMAP with Log-scaled Counts")
+ggsave("umap_harmony_species_10PCs_lognCounts.png", plot = plot,  width = 10, height = 8, dpi = 300)
 
-umap <- DimPlot(so, reduction = "umap.harmony.species", group.by = "nCount_RNA")
-ggsave("umap_harmony_species_10PCs_bynCount_RNA.png", plot = umap,  width = 10, height = 8, dpi = 300)
+plot <- FeaturePlot(so, features = "nFeature_RNA", 
+                    reduction = "umap.harmony.species", 
+                    pt.size = 1) +
+  scale_color_viridis_c(trans = "log1p") + 
+  labs(title = "UMAP with Log-scaled Features")
+ggsave("umap_harmony_species_10PCs_lognFeature.png", plot = plot,  width = 10, height = 8, dpi = 300)
 
-umap_species <- DimPlot(so, reduction = "umap.harmony.species", group.by = "percent.mt")
-ggsave("umap_harmony_species_10PCs_bypercent.mt.png", plot = umap_species,  width = 10, height = 8, dpi = 300)
+plot <- FeaturePlot(so, reduction = "umap.harmony.species", features = "percent.mt") +
+  scale_color_viridis_c() + 
+  labs(title = "UMAP with Log-scaled Percent MT")
+ggsave("umap_harmony_species_10PCs_percent.mt.png", plot = plot,  width = 10, height = 8, dpi = 300)
 
-umap_day <- DimPlot(so, reduction = "umap", group.by = "nFeature_RNA")
-ggsave("umap_top9PCAs_bynFeature_RNA.png", plot = umap_day,  width = 10, height = 8, dpi = 300)
+plot <- FeaturePlot(so, features = "nCount_RNA", 
+                    reduction = "umap", 
+                    pt.size = 1) +
+  scale_color_viridis_c(trans = "log1p") + 
+  labs(title = "UMAP with Log-scaled Counts")
+ggsave("umap_9PCs_lognCounts.png", plot = plot,  width = 10, height = 8, dpi = 300)
 
-umap_day <- DimPlot(so, reduction = "umap", group.by = "nCount_RNA")
-ggsave("umap_top9PCAs_bynCount_RNA.png", plot = umap_day,  width = 10, height = 8, dpi = 300)
+plot <- FeaturePlot(so, features = "nFeature_RNA", 
+                    reduction = "umap", 
+                    pt.size = 1) +
+  scale_color_viridis_c(trans = "log1p") + 
+  labs(title = "UMAP with Log-scaled Features")
+ggsave("umap_9PCs_lognFeature.png", plot = plot,  width = 10, height = 8, dpi = 300)
 
-umap_day <- DimPlot(so, reduction = "umap", group.by = "percent.mt")
-ggsave("umap_top9PCAs_bypercent.mt.png", plot = umap_day,  width = 10, height = 8, dpi = 300)
+plot <- FeaturePlot(so, reduction = "umap", features = "percent.mt") +
+  scale_color_viridis_c() + 
+  labs(title = "UMAP with Log-scaled Percent MT")
+ggsave("umap_9PCs_percent.mt.png", plot = plot,  width = 10, height = 8, dpi = 300)
 
 
 #clsuter anlaysis 
