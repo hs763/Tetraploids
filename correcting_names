@@ -1,0 +1,54 @@
+cd /cephfs2/hannas/tetraploids/analysis
+singularity shell --bind /cephfs2/hannas:/mnt /public/singularity/containers/nextflow/singlecell_latest.sif
+cd /mnt/tetraploids/analysis/preprocessing
+R
+
+library(dplyr)
+library(Seurat)
+library(patchwork)
+library(Matrix)
+library(ggplot2)
+library(harmony)
+library(future)
+
+#reading in the data
+path2data <- "/mnt/tetraploids/expdata/data_samptab/combined/all-sample/DGE_unfiltered/"
+metadata <- read.csv("/mnt/tetraploids/analysis/preprocessing/metadata_TBC.csv")
+
+old_mapping <- data.frame(
+  bc1_wind = metadata$bc1_wind,
+  sample_name = metadata$sample_name
+)
+
+unique_pairs <- old_mapping %>%
+  distinct(bc1_wind, sample_name)
+
+unique_pairs <- unique_pairs %>%
+  arrange(bc1_wind) 
+
+correct_mapping <- data.frame(
+  bc1_wind = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48),
+  correct_sample_names = c("B119_D8", "B114_D9", "B115_D8", "B113_D9", "B112_D10", "B108_D11", 
+  "B119_D12", "B108_D8", "B113_D7", "B112_D8", "B108_D9", "B114_D12", 
+  "B115_D11", "B114_D15", "B119_D14", "B113_D6", "B115_D13", "B112_D7", 
+  "B108_D6", "B108_D13", "B119_D10", "B114_D10", "B115_D6", "B112_D13", 
+  "B113_D11", "B114_D14", "B119_D9", "B115_D10", "B113_D10", "B112_D9", 
+  "B113_D13", "B108_D7", "B119_D15", "B114_D11", "B115_D7", "B113_D12", 
+  "B112_D6", "B108_D12", "B119_D11", "B115_D12", "B112_D11", "B115_D9", 
+  "B119_D13", "B114_D8", "B108_D10", "B113_D8", "B112_D12", "B114_D13")
+)
+
+metadata_sub  <- metadata[,1:12]
+
+metadata_corrected <- metadata_sub %>%
+  left_join(correct_mapping, by = "bc1_wind") %>%       
+  mutate(sample_name = correct_sample_names) %>%  # Using correct column name
+  select(-correct_sample_names)      
+
+metadata_corrected <- metadata_corrected %>%
+  mutate(
+    batch = substr(sample_name, 1, 4),  # Extract the first 4 characters for the batch
+    day = as.numeric(sub(".*D(\\d+)", "\\1", sample_name))  # Extract the number after D
+  )
+
+write.csv(metadata_corrected, "/mnt/tetraploids/analysis/preprocessing/metadata_correct.csv",row.names = FALSE)
