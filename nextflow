@@ -2,8 +2,7 @@
 #fastaq file directory: /cephfs2/dlloyd/tetraploid_sequencing_data/40-1004789214/00_fastq
 #http://guidepiper/parse?pipeline_version=0.0.1.dev 
 
-nextflow run /public/singularity/containers/nextflow/lmb-nextflow/pipelines/sc_parse/scparse.nf \
-    -config /public/singularity/containers/nextflow/lmb-nextflow/pipelines/sc_parse/nextflow_cluster.config \
-    --reads_folder /cephfs2/hannas/tetraploids/expdata \
-    --genome_folder /public/genomics/species_references/nextflow/Genome_References/Ensembl/Ensembl_Parse/homo_sapiens/GRCh38/Release_102/Parse_index/homo_sapiens.GRCh38.dna.102.Parse_index \
-    --sample_file /cephfs2/hannas/tetraploids/sample_information.prn --chemistry_version v2 --outdir /cephfs2/hannas/tetraploids/results -bg
+nextflow run -config /public/singularity/containers/nextflow/lmb-nextflow/genomes.config,/public/singularity/containers/nextflow/nf-split-pipe/nextflow.config \
+-profile lmb_cluster /public/singularity/containers/nextflow/nf-split-pipe/main.nf --genome homo_sapiens.GRCh38.release_102 \
+--genome_name homo_sapiens.GRCh38.release_102 --samp_list /cephfs2/hannas/tetraploids/expdata/pipeline_Parse_np/Tetraploid_Sample_info_final.txt \
+--fastq /cephfs2/hannas/tetraploids/expdata/raw_data --chemistry v2 --trim --concatenate -bg
